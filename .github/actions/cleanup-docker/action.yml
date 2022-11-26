@@ -1,5 +1,5 @@
 name: 'Clean up docker'
-runs-on:
+runs:
   using: "composite"
   steps:
     - name: Cleaning up docker
