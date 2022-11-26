@@ -20,6 +20,7 @@ RUN poetry install --no-root
 
 COPY pytest.ini ./
 COPY src src
+COPY utils utils
 
 FROM dev as pre-prod
 RUN poetry export --without-hashes --format=requirements.txt > requirements.txt
