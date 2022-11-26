@@ -5,14 +5,12 @@ stages:
   - test
 
 .compose_pull_start: &compose_pull_start
-  - cd $COMPOSE_FOLDER
-  - docker-compose -p $COMPOSE_ID -f $COMPOSE_FILE pull db redis
-  - docker-compose -p $COMPOSE_ID -f $COMPOSE_FILE up -d db redis
+  - sh -c "cd ${COMPOSE_FOLDER} && docker-compose -p $COMPOSE_ID -f $COMPOSE_FILE pull db redis"
+  - sh -c "cd ${COMPOSE_FOLDER} && docker-compose -p $COMPOSE_ID -f $COMPOSE_FILE up -d db redis"
   - sleep 3
 
 .compose_over: &compose_over
-  - cd $COMPOSE_FOLDER
-  - docker-compose -p $COMPOSE_ID down --volumes --rmi local
+  - sh -c "cd ${COMPOSE_FOLDER} && docker-compose -p $COMPOSE_ID down --volumes --rmi local"
 
 .job_compose: &job_compose
   before_script:
@@ -29,9 +27,8 @@ build-test-django:
     COMPOSE_FOLDER: example_frm_django
   <<: *job_compose
   script:
-    - cd example_frm_django
-    - make dev_build
-    - make dev_test
+    - sh -c "cd ${COMPOSE_FOLDER} && make dev_build"
+    - sh -c "cd ${COMPOSE_FOLDER} && make dev_test"
 
 build-test-fastapi:
   image: ${IMAGE_PIPELINE_RUNNER}
@@ -42,6 +39,5 @@ build-test-fastapi:
     COMPOSE_FOLDER: example_frm_fastapi
   <<: *job_compose
   script:
-    - cd example_frm_fastapi
-    - make dev_build
-    - make dev_test
+    - sh -c "cd ${COMPOSE_FOLDER} && make dev_build"
+    - sh -c "cd ${COMPOSE_FOLDER} && make dev_test"
