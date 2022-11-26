@@ -1,0 +1,28 @@
+[tool.poetry]
+name = "example-frm-fastapi"
+version = "0.1.0"
+description = ""
+authors = ["dd84ai <dd84ai@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+packages = [{include = "example_frm_fastapi"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+fastapi = {extras = ["all"], version = "^0.87.0"}
+uvicorn = {extras = ["standard"], version = "^0.20.0"}
+sqlalchemy = "^1.4.44"
+sqlalchemy-utils = "^0.38.3"
+alembic = "^1.8.1"
+asyncpg = "^0.27.0"
+celery = {extras = ["redis"], version = "^5.2.7"}
+flower = "^1.2.0"
+pytest = "^7.2.0"
+gunicorn = "^20.1.0"
+psycopg2-binary = "^2.9.5"
+pytest-asyncio = "^0.20.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

@@ -1,0 +1,44 @@
+x-services:
+  app_pip: &app_pip
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+version: '3.8'
+services:
+  db:
+    image: postgres:15 # 5432
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: trust
+      POSTGRES_DB: postgres
+  redis:
+    image: redis # 6379
+  worker:
+    <<: *app_pip
+    command: celery -A src.core.celery worker --concurrency=2
+  beat:
+    <<: *app_pip
+    command: celery -A src.core.celery beat
+  flower:
+    <<: *app_pip
+    command: celery -A src.core.celery flower
+    ports:
+      - 5555:5555
+  job_migrate:
+    <<: *app_pip
+    command: python manage.py migrate
+  web:
+    <<: *app_pip
+    command: gunicorn src.core.wsgi -b 0.0.0.0:8000 --workers 2
+    volumes:
+      - static_volume:/static
+  front:
+    image: nginx:1.19.0-alpine
+    volumes:
+      - "./docker/nginx.conf:/etc/nginx/conf.d/default.conf"
+      - static_volume:/static
+    ports:
+      - 8000:80
+
+volumes:
+  static_volume:

@@ -1,0 +1,32 @@
+name: CI
+
+on:
+  pull_request: {}
+  push:
+    branches: ["master"]
+    
+jobs:
+  build-test-django:
+    name: Build and test Django
+    runs-on: self-hosted
+    steps:
+      - name: Check out source repository
+        uses: actions/checkout@v2
+      - name: Build image
+        run: >
+          cd example_frm_django
+          make dev_build
+          make dev_test
+
+  build-test-fastapi:
+    name: Build and test FastAPI
+    runs-on: self-hosted
+    steps:
+      - name: Check out source repository
+        uses: actions/checkout@v2
+      - name: Build image
+        run: >
+          cd example_frm_fastapi
+          make dev_build
+          make dev_test
+

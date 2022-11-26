@@ -1,2 +1,5 @@
 site/
 __pycache__/
+.pytest_cache/
+.venv/
+src/index.md

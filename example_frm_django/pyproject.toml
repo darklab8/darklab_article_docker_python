@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "example-frm-django"
+version = "0.1.0"
+description = ""
+authors = ["dd84ai <dd84ai@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+packages = [{include = "example_frm_django"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+django = "^4.1.3"
+djangorestframework = "^3.14.0"
+markdown = "^3.4.1"
+django-filter = "^22.1"
+psycopg2-binary = "^2.9.5"
+gunicorn = "^20.1.0"
+celery = {extras = ["redis"], version = "^5.2.7"}
+flower = "^1.2.0"
+pytest = "^7.2.0"
+pytest-django = "^4.5.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

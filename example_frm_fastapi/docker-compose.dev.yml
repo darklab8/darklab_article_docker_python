@@ -1,0 +1,30 @@
+x-services:
+  app_poetry: &app_poetry
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: dev
+    environment:
+      EXAMPLE_DEBUG: "true"
+
+version: '3.8'
+services:
+  db:
+    image: postgres:15 # 5432
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: trust
+      POSTGRES_DB: postgres
+  redis:
+    image: redis # 6379
+  job_migrate:
+    <<: *app_poetry
+    command: ./src/utils/scripts/wait_for_it.sh db:5432 -t 20 -- alembic -c src/alembic.ini upgrade head
+  web:
+    <<: *app_poetry
+    command: uvicorn src.core.main:app --host 0.0.0.0
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+      - redis
+      - job_migrate
