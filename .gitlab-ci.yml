@@ -1,5 +1,5 @@
 variables:
-  IMAGE_PIPELINE_RUNNER: docker:20.10.12-alpine3.15
+  IMAGE_PIPELINE_RUNNER: docker:22.06.0-beta.0-cli
 
 stages:
   - test
@@ -18,7 +18,7 @@ stages:
   after_script:
     - *compose_over
 
-unit-configurator:
+build-test-django:
   image: ${IMAGE_PIPELINE_RUNNER}
   stage: test
   variables:
@@ -30,7 +30,7 @@ unit-configurator:
     - make dev_build
     - make dev_test
 
-unit-scrappy:
+build-test-fastapi:
   image: ${IMAGE_PIPELINE_RUNNER}
   stage: test
   variables:
