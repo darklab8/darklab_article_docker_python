@@ -6,16 +6,21 @@ inputs:
   containers:
     description: 'Containers to start'
     required: true
+  workdir:
+    description: 'Workdir'
+    required: true
 runs:
   using: "composite"
   steps:
     - name: Start the dependencies
       shell: bash
+      working-directory: ${{ inputs.workdir }}
       run: |
         docker-compose -p ${{ github.run_id }} -f ${{ inputs.docker-compose }} pull ${{ inputs.containers }}
         docker-compose -p ${{ github.run_id }} -f ${{ inputs.docker-compose }} up -d ${{ inputs.containers }}
         sleep 3  # Wait for db to be starte
     - uses: webiny/action-post-run@2.0.1
+      working-directory: ${{ inputs.workdir }}
       with:
         run: |
           docker-compose -p ${{ github.run_id }} down --volumes --rmi local
