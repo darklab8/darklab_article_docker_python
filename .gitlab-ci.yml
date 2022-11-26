@@ -1,0 +1,43 @@
+variables:
+  IMAGE_PIPELINE_RUNNER: docker:20.10.12-alpine3.15
+
+stages:
+  - test
+
+.compose_pull_start: &compose_pull_start
+  - docker-compose -p $COMPOSE_ID -f $COMPOSE_FILE pull db redis
+  - docker-compose -p $COMPOSE_ID -f $COMPOSE_FILE up -d db redis
+  - sleep 3
+
+.compose_over: &compose_over
+  - docker-compose -p $COMPOSE_ID down --volumes --rmi local
+
+.job_compose: &job_compose
+  before_script:
+    - *compose_pull_start
+  after_script:
+    - *compose_over
+
+unit-configurator:
+  image: ${IMAGE_PIPELINE_RUNNER}
+  stage: test
+  variables:
+    COMPOSE_ID: $CI_PIPELINE_ID/django
+    COMPOSE_FILE: docker-compose.dev.yml
+  <<: *job_compose
+  script:
+    - cd example_frm_django
+    - make dev_build
+    - make dev_test
+
+unit-scrappy:
+  image: ${IMAGE_PIPELINE_RUNNER}
+  stage: test
+  variables:
+    COMPOSE_ID: $CI_PIPELINE_ID/django
+    COMPOSE_FILE: docker-compose.dev.yml
+  <<: *job_compose
+  script:
+    - cd example_frm_fastapi
+    - make dev_build
+    - make dev_test
