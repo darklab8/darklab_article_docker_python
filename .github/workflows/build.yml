@@ -13,7 +13,7 @@ jobs:
       - name: Check out source repository
         uses: actions/checkout@v2
       - name: Build image
-        run: >
+        run: |
           cd example_frm_django
           make dev_build
           make dev_test
@@ -25,7 +25,7 @@ jobs:
       - name: Check out source repository
         uses: actions/checkout@v2
       - name: Build image
-        run: >
+        run: |
           cd example_frm_fastapi
           make dev_build
           make dev_test
