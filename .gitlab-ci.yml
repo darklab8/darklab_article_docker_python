@@ -24,7 +24,7 @@ build-test-django:
   image: ${IMAGE_PIPELINE_RUNNER}
   stage: test
   variables:
-    COMPOSE_ID: $CI_PIPELINE_ID/django
+    COMPOSE_ID: ${CI_PIPELINE_ID}_django
     COMPOSE_FILE: docker-compose.dev.yml
     COMPOSE_FOLDER: example_frm_django
   <<: *job_compose
@@ -37,7 +37,7 @@ build-test-fastapi:
   image: ${IMAGE_PIPELINE_RUNNER}
   stage: test
   variables:
-    COMPOSE_ID: $CI_PIPELINE_ID/django
+    COMPOSE_ID: ${CI_PIPELINE_ID}_fastapi
     COMPOSE_FILE: docker-compose.dev.yml
     COMPOSE_FOLDER: example_frm_fastapi
   <<: *job_compose
