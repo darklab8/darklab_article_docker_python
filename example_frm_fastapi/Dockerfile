@@ -34,3 +34,4 @@ RUN pip install -r requirements.txt
 
 COPY pytest.ini ./
 COPY src src
+COPY utils utils

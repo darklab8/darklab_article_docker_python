@@ -16,6 +16,10 @@ jobs:
       - name: Build image
         run: make dev_build
         working-directory: example_frm_django
+      - uses: ./.github/actions/compose-pull-start
+        with:
+          docker-compose: docker-compose.test.yml
+          containers: db redis
       - name: Test image
         run: make dev_test
         working-directory: example_frm_django
@@ -30,6 +34,10 @@ jobs:
       - name: Build image
         run: make dev_build
         working-directory: example_frm_fastapi
+      - uses: ./.github/actions/compose-pull-start
+        with:
+          docker-compose: docker-compose.test.yml
+          containers: db redis
       - name: Test image
         run: make dev_test
         working-directory: example_frm_fastapi

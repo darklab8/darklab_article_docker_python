@@ -1,0 +1,21 @@
+name: 'Pull and start containers'
+inputs:
+  docker-compose:
+    description: 'Compose filename'
+    default: 'docker-compose.yml'
+  containers:
+    description: 'Containers to start'
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - name: Start the dependencies
+      shell: bash
+      run: |
+        docker-compose -p ${{ github.run_id }} -f ${{ inputs.docker-compose }} pull ${{ inputs.containers }}
+        docker-compose -p ${{ github.run_id }} -f ${{ inputs.docker-compose }} up -d ${{ inputs.containers }}
+        sleep 3  # Wait for db to be starte
+    - uses: webiny/action-post-run@2.0.1
+      with:
+        run: |
+          docker-compose -p ${{ github.run_id }} down --volumes --rmi local
