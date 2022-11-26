@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "example-frm-flask"
+version = "0.1.0"
+description = ""
+authors = ["dd84ai <dd84ai@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+packages = [{include = "example_frm_flask"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+flask = "^2.2.2"
+gunicorn = "^20.1.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

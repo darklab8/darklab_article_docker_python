@@ -1,0 +1,26 @@
+version: '3.8'
+services:
+  web-pip:
+    ports:
+      - "8000:8000"
+    command: gunicorn --bind 0.0.0.0:8000 src.core.wsgi:app
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: dep-pip
+  web-pipenv:
+    ports:
+      - "8001:8001"
+    command: gunicorn --bind 0.0.0.0:8001 src.core.wsgi:app
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: dep-pipenv
+  web-poetry:
+    ports:
+      - "8002:8002"
+    command: gunicorn --bind 0.0.0.0:8002 src.core.wsgi:app
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: dep-poetry
