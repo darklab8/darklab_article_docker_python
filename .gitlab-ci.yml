@@ -4,6 +4,9 @@ variables:
 stages:
   - test
 
+.install_make: &install_make
+  - apt update && apt install -y make
+
 .compose_pull_start: &compose_pull_start
   - sh -c "cd ${COMPOSE_FOLDER} && docker-compose -p $COMPOSE_ID -f $COMPOSE_FILE pull db redis"
   - sh -c "cd ${COMPOSE_FOLDER} && docker-compose -p $COMPOSE_ID -f $COMPOSE_FILE up -d db redis"
@@ -14,6 +17,7 @@ stages:
 
 .job_compose: &job_compose
   before_script:
+    - *install_make
     - *compose_pull_start
   after_script:
     - *compose_over
