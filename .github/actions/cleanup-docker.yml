@@ -1,0 +1,9 @@
+name: 'Clean up docker'
+runs-on:
+  using: "composite"
+  steps:
+    - name: Cleaning up docker
+      shell: bash
+      run: |
+          docker system prune -f --volumes
+          
