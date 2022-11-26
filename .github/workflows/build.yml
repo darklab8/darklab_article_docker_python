@@ -10,9 +10,9 @@ jobs:
     name: Build and test Django
     runs-on: self-hosted
     steps:
-      - uses: ./.github/actions/cleanup-docker.yml
       - name: Check out source repository
         uses: actions/checkout@v2
+      - uses: ./.github/actions/cleanup-docker.yml
       - name: Build image
         run: |
           cd example_frm_django
@@ -23,9 +23,9 @@ jobs:
     name: Build and test FastAPI
     runs-on: self-hosted
     steps:
-      - uses: ./.github/actions/cleanup-docker.yml
       - name: Check out source repository
         uses: actions/checkout@v2
+      - uses: ./.github/actions/cleanup-docker.yml
       - name: Build image
         run: |
           cd example_frm_fastapi
