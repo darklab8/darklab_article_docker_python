@@ -14,15 +14,16 @@ jobs:
         uses: actions/checkout@v2
       - uses: ./.github/actions/cleanup-docker
       - name: Build image
-        run: make dev_build
+        run: project_id_dev=${{ github.run_id }}_django make dev_build
         working-directory: example_frm_django
       - uses: ./.github/actions/compose-pull-start
         with:
           docker-compose: docker-compose.dev.yml
           containers: db redis
           workdir: example_frm_django
+          project_id: ${{ github.run_id }}_django 
       - name: Test image
-        run: make dev_test
+        run: project_id_dev=${{ github.run_id }}_django make dev_test
         working-directory: example_frm_django
 
   build-test-fastapi:
@@ -33,15 +34,16 @@ jobs:
         uses: actions/checkout@v2
       - uses: ./.github/actions/cleanup-docker
       - name: Build image
-        run: make dev_build
+        run: project_id_dev=${{ github.run_id }}_fastapi make dev_build
         working-directory: example_frm_fastapi
       - uses: ./.github/actions/compose-pull-start
         with:
           docker-compose: docker-compose.dev.yml
           containers: db redis
           workdir: example_frm_fastapi
+          project_id: ${{ github.run_id }}_fastapi
       - name: Test image
-        run: make dev_test
+        run: project_id_dev=${{ github.run_id }}_fastapi make dev_test
         working-directory: example_frm_fastapi
           
 

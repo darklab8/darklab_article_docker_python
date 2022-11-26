@@ -9,6 +9,9 @@ inputs:
   workdir:
     description: 'Workdir'
     required: true
+  project_id:
+    description: 'Compose project id'
+    required: true
 runs:
   using: "composite"
   steps:
@@ -16,11 +19,11 @@ runs:
       shell: bash
       working-directory: ${{ inputs.workdir }}
       run: |
-        docker-compose -p ${{ github.run_id }} -f ${{ inputs.docker-compose }} pull ${{ inputs.containers }}
-        docker-compose -p ${{ github.run_id }} -f ${{ inputs.docker-compose }} up -d ${{ inputs.containers }}
+        docker-compose -p ${{ inputs.project_id }} -f ${{ inputs.docker-compose }} pull ${{ inputs.containers }}
+        docker-compose -p ${{ inputs.project_id }} -f ${{ inputs.docker-compose }} up -d ${{ inputs.containers }}
         sleep 3  # Wait for db to be starte
     - uses: webiny/action-post-run@2.0.1
       with:
         run: |
           cd ${{ inputs.workdir }}
-          docker-compose -p ${{ github.run_id }} down --volumes --rmi local
+          docker-compose -p ${{ inputs.project_id }} down --volumes --rmi local
