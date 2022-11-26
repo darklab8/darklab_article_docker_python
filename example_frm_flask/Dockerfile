@@ -28,3 +28,12 @@ FROM base as dep-pip
 COPY requirements.txt constraints.txt ./
 RUN pip install -r requirements.txt -c constraints.txt
 COPY src src
+
+
+FROM base as dep-venv
+ENV VIRTUAL_ENV=/opt/venv
+RUN python3 -m venv $VIRTUAL_ENV
+ENV PATH="$VIRTUAL_ENV/bin:$PATH"
+COPY requirements.txt constraints.txt ./
+RUN pip install -r requirements.txt -c constraints.txt
+COPY src src

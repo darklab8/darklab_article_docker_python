@@ -24,3 +24,11 @@ services:
       context: .
       dockerfile: Dockerfile
       target: dep-poetry
+  web-venv:
+    ports:
+      - "80800300:8003"
+    command: gunicorn --bind 0.0.0.0:8003 src.core.wsgi:app
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: dep-venv
