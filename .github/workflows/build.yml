@@ -12,7 +12,7 @@ jobs:
     steps:
       - name: Check out source repository
         uses: actions/checkout@v2
-      - uses: ./.github/actions/cleanup-docker.yml
+      - uses: ./.github/actions/cleanup-docker
       - name: Build image
         run: |
           cd example_frm_django
@@ -25,7 +25,7 @@ jobs:
     steps:
       - name: Check out source repository
         uses: actions/checkout@v2
-      - uses: ./.github/actions/cleanup-docker.yml
+      - uses: ./.github/actions/cleanup-docker
       - name: Build image
         run: |
           cd example_frm_fastapi
