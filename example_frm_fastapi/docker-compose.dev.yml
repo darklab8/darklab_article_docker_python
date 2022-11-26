@@ -18,7 +18,7 @@ services:
     image: redis # 6379
   job_migrate:
     <<: *app_poetry
-    command: ./src/utils/scripts/wait_for_it.sh db:5432 -t 20 -- alembic -c src/alembic.ini upgrade head
+    command: ./utils/scripts/wait_for_it.sh db:5432 -t 20 -- alembic -c src/alembic.ini upgrade head
   web:
     <<: *app_poetry
     command: uvicorn src.core.main:app --host 0.0.0.0

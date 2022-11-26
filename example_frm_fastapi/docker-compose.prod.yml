@@ -26,7 +26,7 @@ services:
       - 5555:5555
   job_migrate:
     <<: *app_pip
-    command: ./src/utils/scripts/wait_for_it.sh db:5432 -t 20 -- alembic -c src/alembic.ini upgrade head
+    command: ./utils/scripts/wait_for_it.sh db:5432 -t 20 -- alembic -c src/alembic.ini upgrade head
   web:
     <<: *app_pip
     command: gunicorn src.core.main:app --workers 4 --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000
