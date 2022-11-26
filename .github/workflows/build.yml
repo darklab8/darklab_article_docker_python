@@ -14,10 +14,11 @@ jobs:
         uses: actions/checkout@v2
       - uses: ./.github/actions/cleanup-docker
       - name: Build image
-        run: |
-          cd example_frm_django
-          make dev_build
-          make dev_test
+        run: make dev_build
+        working-directory: example_frm_django
+      - name: Test image
+        run: make dev_test
+        working-directory: example_frm_django
 
   build-test-fastapi:
     name: Build and test FastAPI
@@ -27,8 +28,10 @@ jobs:
         uses: actions/checkout@v2
       - uses: ./.github/actions/cleanup-docker
       - name: Build image
-        run: |
-          cd example_frm_fastapi
-          make dev_build
-          make dev_test
+        run: make dev_build
+        working-directory: example_frm_fastapi
+      - name: Test image
+        run: make dev_test
+        working-directory: example_frm_fastapi
+          
 
