@@ -1,6 +1,6 @@
 # Description
 
-Article about setting up... dockerized python web projects
+[Article about setting up... dockerized python web projects](https://darklab8.github.io/darklab_article_docker_python/)
 
 # TODO in code
 
