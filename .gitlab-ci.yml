@@ -20,7 +20,7 @@ build-test-django:
     COMPOSE_ID: ${CI_PIPELINE_ID}_django
   <<: *setup
   script:
-    - example_frm_django
+    - cd example_frm_django
     - task dev:test
 
 build-test-fastapi:
