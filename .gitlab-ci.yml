@@ -6,7 +6,7 @@ stages:
 
 .install_task: &install_task
   - apk update && apk add curl
-  - sh -c "$(curl --location https://taskfile.dev/install.sh)" -- -d -b ~/local/bin
+  - sh -c "$(curl --location https://taskfile.dev/install.sh)" -- -d -b /usr/local/bin
 
 .compose_pull_start: &compose_pull_start
   - sh -c "cd ${COMPOSE_FOLDER} && docker-compose -p $COMPOSE_ID -f $COMPOSE_FILE pull db redis"
