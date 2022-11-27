@@ -6,4 +6,3 @@ runs:
       shell: bash
       run: |
           docker system prune -f --volumes
-          

@@ -24,7 +24,6 @@ jobs:
         run: >
           python3 --version
           python3 -m ensurepip
-
       - name: Install requirements.txt
         run: >
           pip install -r requirements.txt
@@ -38,4 +37,3 @@ jobs:
       - name: Deploy to pages
         uses: actions/deploy-pages@v1
         id: deployment
-

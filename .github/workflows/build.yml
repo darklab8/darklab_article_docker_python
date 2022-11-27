@@ -16,7 +16,9 @@ jobs:
       - name: Install Task
         uses: arduino/setup-task@v1
       - name: Test
-        run: COMPOSE_ID=${{ github.run_id }}_django task dev:test
+        run: task dev:ci_test
+        env:
+          COMPOSE_ID: ${{ github.run_id }}_django
         working-directory: example_frm_django
 
   build-test-fastapi:
@@ -29,7 +31,7 @@ jobs:
       - name: Install Task
         uses: arduino/setup-task@v1
       - name: Test
-        run: COMPOSE_ID=${{ github.run_id }}_fastapi task dev:ci_test
+        run: task dev:ci_test
+        env:
+          COMPOSE_ID: ${{ github.run_id }}_fastapi
         working-directory: example_frm_fastapi
-          
-
