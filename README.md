@@ -10,8 +10,4 @@ Article about setting up... dockerized python web projects
 - [x] Add compose pull start and compose down
 - [x] showing flask being setup with pipenv?
 - [x] CORS headers!
-
-# TODO to write
-- [ ] Mention that only with debug true in Dev server, python serve static assets. Otherwise they need Nginx or its alternatives.
-- [ ] Mention never using default python dev servers inbuilt into libraries.
-- [ ] Get links to deployment in Django
+- [x] Refactoring Makefiles+CI code to [task](https://taskfile.dev/)
