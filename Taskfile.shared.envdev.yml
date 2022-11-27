@@ -31,3 +31,10 @@ tasks:
       - task: compose:run
         vars:
           CMD: web pytest
+
+  ci_test:
+    cmds:
+      - task: compose:ci_run
+        vars:
+          CMD: web pytest
+          PULL_CONTAINERS: db redis

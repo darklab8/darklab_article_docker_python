@@ -15,16 +15,7 @@ jobs:
       - uses: ./.github/actions/cleanup-docker
       - name: Install Task
         uses: arduino/setup-task@v1
-      - name: Build image
-        run: COMPOSE_ID=${{ github.run_id }}_django task dev:build
-        working-directory: example_frm_django
-      - uses: ./.github/actions/compose-pull-start
-        with:
-          docker-compose: docker-compose.dev.yml
-          containers: db redis
-          workdir: example_frm_django
-          project_id: ${{ github.run_id }}_django 
-      - name: Test image
+      - name: Test
         run: COMPOSE_ID=${{ github.run_id }}_django task dev:test
         working-directory: example_frm_django
 
@@ -37,17 +28,8 @@ jobs:
       - uses: ./.github/actions/cleanup-docker
       - name: Install Task
         uses: arduino/setup-task@v1
-      - name: Build image
-        run: COMPOSE_ID=${{ github.run_id }}_fastapi task dev:build
-        working-directory: example_frm_fastapi
-      - uses: ./.github/actions/compose-pull-start
-        with:
-          docker-compose: docker-compose.dev.yml
-          containers: db redis
-          workdir: example_frm_fastapi
-          project_id: ${{ github.run_id }}_fastapi
-      - name: Test image
-        run: COMPOSE_ID=${{ github.run_id }}_fastapi task dev:test
+      - name: Test
+        run: COMPOSE_ID=${{ github.run_id }}_fastapi task dev:ci_test
         working-directory: example_frm_fastapi
           
 

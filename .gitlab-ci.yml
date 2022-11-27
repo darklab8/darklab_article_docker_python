@@ -1,6 +1,7 @@
 variables:
   IMAGE_PIPELINE_RUNNER: docker:22.06.0-beta.0-cli
   DOCKER_HOST: tcp://dind-service:2375
+
 stages:
   - test
 
@@ -8,41 +9,26 @@ stages:
   - apk update && apk add curl
   - sh -c "$(curl --location https://taskfile.dev/install.sh)" -- -d -b /usr/local/bin
 
-.compose_pull_start: &compose_pull_start
-  - sh -c "cd ${COMPOSE_FOLDER} && docker-compose -p $COMPOSE_ID -f $COMPOSE_FILE pull db redis"
-  - sh -c "cd ${COMPOSE_FOLDER} && docker-compose -p $COMPOSE_ID -f $COMPOSE_FILE up -d db redis"
-  - sleep 3
-
-.compose_over: &compose_over
-  - sh -c "cd ${COMPOSE_FOLDER} && docker-compose -p $COMPOSE_ID down --volumes --rmi local"
-
-.job_compose: &job_compose
+.setup: &setup
   before_script:
     - *install_task
-    - *compose_pull_start
-  after_script:
-    - *compose_over
 
 build-test-django:
   image: ${IMAGE_PIPELINE_RUNNER}
   stage: test
   variables:
     COMPOSE_ID: ${CI_PIPELINE_ID}_django
-    COMPOSE_FILE: docker-compose.dev.yml
-    COMPOSE_FOLDER: example_frm_django
-  <<: *job_compose
+  <<: *setup
   script:
-    - sh -c "cd ${COMPOSE_FOLDER} && task dev:build"
-    - sh -c "cd ${COMPOSE_FOLDER} && task dev:test"
+    - example_frm_django
+    - task dev:test
 
 build-test-fastapi:
   image: ${IMAGE_PIPELINE_RUNNER}
   stage: test
   variables:
     COMPOSE_ID: ${CI_PIPELINE_ID}_fastapi
-    COMPOSE_FILE: docker-compose.dev.yml
-    COMPOSE_FOLDER: example_frm_fastapi
-  <<: *job_compose
+  <<: *setup
   script:
-    - sh -c "cd ${COMPOSE_FOLDER} && task dev:build"
-    - sh -c "cd ${COMPOSE_FOLDER} && task dev:test"
+    - cd example_frm_fastapi
+    - task dev:test
