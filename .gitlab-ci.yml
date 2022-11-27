@@ -11,7 +11,7 @@ stages:
   before_script:
     - apk update && apk add curl
     - sh -c "$(curl --location https://taskfile.dev/install.sh)" -- -d -b /usr/local/bin
-    - ./docker/wait-for-command.sh -c 'curl docker:2375' -t 30
+    - sleep 10
   services:
     - name: docker:22.06.0-beta.0-dind
       alias: docker
