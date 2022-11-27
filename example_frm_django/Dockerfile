@@ -4,28 +4,30 @@ ENV PYTHONUNBUFFERED 1
 ENV PYTHONDONTWRITEBYTECODE 1
 WORKDIR /code
 
-# curl for poetry setup
 # gettext for `python3 manage.py compilemessages`
 RUN apt update && apt install -y \ 
-    curl \
     gettext \
     && rm -rf /var/lib/apt/lists/*
 
 
 FROM base as dev
-RUN curl -sSL https://install.python-poetry.org | python3 -
-ENV PATH="/root/.local/bin:$PATH"
+
+ENV POETRY_HOME /opt/poetry
+RUN python3 -m venv $POETRY_HOME
+RUN $POETRY_HOME/bin/pip install poetry==1.2.2
+ENV POETRY_BIN $POETRY_HOME/bin/poetry
+
 COPY pyproject.toml poetry.lock ./
 
-RUN poetry config --local virtualenvs.create false
-RUN poetry install --no-root
+RUN $POETRY_BIN config --local virtualenvs.create false
+RUN $POETRY_BIN install --no-root
 
 COPY manage.py pytest.ini ./
 COPY src src
 
 
 FROM dev as pre-prod
-RUN poetry export --without-hashes --format=requirements.txt > requirements.txt
+RUN $POETRY_BIN export --without-hashes --format=requirements.txt > requirements.txt
 FROM python:3.10.5-slim-buster as prod
 
 ENV PYTHONUNBUFFERED 1
