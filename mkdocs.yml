@@ -1,5 +1,5 @@
-site_name: Documentation as a code
-site_description: The guide to handle beraucracy as a developer
+site_name: Dockerize Python
+site_description: The guide to setup python web projects with docker
 docs_dir: src
 theme:
     name: readthedocs
