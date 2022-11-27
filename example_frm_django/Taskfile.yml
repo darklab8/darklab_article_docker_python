@@ -1,0 +1,31 @@
+
+version: '3'
+
+includes:
+  poetry:
+    taskfile: ../Taskfile.shared.poetry.yml
+
+  dev:
+    taskfile: ../Taskfile.shared.envdev.yml
+    vars:
+      COMPOSE_ID: dev_django
+      COMPOSE_FILE: docker-compose.dev.yml
+      DIR: example_frm_django
+    dir: .
+
+  prod:
+    taskfile: ../Taskfile.shared.envprod.yml
+    vars:
+      COMPOSE_ID: prod_django
+      COMPOSE_FILE: docker-compose.prod.yml
+      DIR: example_frm_django
+    dir: .
+
+tasks:
+  makemigration:
+    cmds:
+      - python3 manage.py makemigrations
+  
+  migrate:
+    cmds:
+      - python3 manage.py migrate

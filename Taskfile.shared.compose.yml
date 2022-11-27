@@ -1,0 +1,31 @@
+version: '3'
+
+tasks:
+  down:
+    internal: true
+    cmds:
+      - docker-compose -f {{.COMPOSE_FILE}} -p {{.COMPOSE_ID}} down
+    dir: ./{{.DIR}}
+
+  build:
+    internal: true
+    cmds:
+      - docker-compose -f {{.COMPOSE_FILE}} -p {{.COMPOSE_ID}} build -- web
+      - docker-compose -f {{.COMPOSE_FILE}} -p {{.COMPOSE_ID}} build 
+    dir: ./{{.DIR}}
+
+  up:
+    internal: true
+    cmds:
+      - task: build
+      - defer: { task: down }
+      - docker-compose -f {{.COMPOSE_FILE}} -p {{.COMPOSE_ID}} up
+    dir: ./{{.DIR}}
+
+  run:
+    internal: true
+    cmds:
+      - task: build
+      - defer: { task: down }
+      - docker-compose -f {{.COMPOSE_FILE}} -p {{.COMPOSE_ID}} run {{.CMD}}
+    dir: ./{{.DIR}}

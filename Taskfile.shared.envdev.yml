@@ -1,0 +1,33 @@
+version: '3'
+
+env:
+  COMPOSE_ID: "{{.COMPOSE_ID}}" # dev_fastapi
+  COMPOSE_FILE: "{{.COMPOSE_FILE}}" # docker-compose.dev.yml
+  DIR: "{{.DIR}}"
+
+includes:
+  compose:
+    taskfile: ./Taskfile.shared.compose.yml
+    internal: true
+
+tasks:
+  build:
+    cmds:
+      - task: compose:build
+
+  run:
+    cmds:
+      - task: compose:up
+
+  shell:
+    cmds:
+      - task: compose:run
+        vars:
+          CMD:
+            sh: echo '-v "$(pwd):/code" web bash'
+
+  test:
+    cmds:
+      - task: compose:run
+        vars:
+          CMD: web pytest

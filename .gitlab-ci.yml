@@ -4,8 +4,8 @@ variables:
 stages:
   - test
 
-.install_make: &install_make
-  - apk update && apk add make
+.install_task: &install_task
+  - sh -c "$(curl --location https://taskfile.dev/install.sh)" -- -d -b ~/.local/bin
 
 .compose_pull_start: &compose_pull_start
   - sh -c "cd ${COMPOSE_FOLDER} && docker-compose -p $COMPOSE_ID -f $COMPOSE_FILE pull db redis"
@@ -17,7 +17,7 @@ stages:
 
 .job_compose: &job_compose
   before_script:
-    - *install_make
+    - *install_task
     - *compose_pull_start
   after_script:
     - *compose_over
@@ -31,8 +31,8 @@ build-test-django:
     COMPOSE_FOLDER: example_frm_django
   <<: *job_compose
   script:
-    - sh -c "cd ${COMPOSE_FOLDER} && make dev_build"
-    - sh -c "cd ${COMPOSE_FOLDER} && make dev_test"
+    - sh -c "cd ${COMPOSE_FOLDER} && task dev:build"
+    - sh -c "cd ${COMPOSE_FOLDER} && task dev:test"
 
 build-test-fastapi:
   image: ${IMAGE_PIPELINE_RUNNER}
@@ -43,5 +43,5 @@ build-test-fastapi:
     COMPOSE_FOLDER: example_frm_fastapi
   <<: *job_compose
   script:
-    - sh -c "cd ${COMPOSE_FOLDER} && make dev_build"
-    - sh -c "cd ${COMPOSE_FOLDER} && make dev_test"
+    - sh -c "cd ${COMPOSE_FOLDER} && task dev:build"
+    - sh -c "cd ${COMPOSE_FOLDER} && task dev:test"

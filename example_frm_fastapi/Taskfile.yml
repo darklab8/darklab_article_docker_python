@@ -1,0 +1,34 @@
+
+version: '3'
+
+includes:
+  poetry:
+    taskfile: ../Taskfile.shared.poetry.yml
+
+  dev:
+    taskfile: ../Taskfile.shared.envdev.yml
+    vars:
+      COMPOSE_ID: dev_fastapi
+      COMPOSE_FILE: docker-compose.dev.yml
+      DIR: example_frm_fastapi
+    dir: .
+
+  prod:
+    taskfile: ../Taskfile.shared.envprod.yml
+    vars:
+      COMPOSE_ID: prod_fastapi
+      COMPOSE_FILE: docker-compose.prod.yml
+      DIR: example_frm_fastapi
+    dir: .
+
+tasks:
+  makemigration:
+    cmds:
+      - alembic -c src/alembic.ini revision --autogenerate -m "{{.TIMESTAMP}}"
+    vars:
+      TIMESTAMP:
+        sh: date +%s
+  
+  migrate:
+    cmds:
+      - alembic -c src/alembic.ini upgrade head
