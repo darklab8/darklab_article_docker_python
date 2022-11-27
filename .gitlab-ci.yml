@@ -1,8 +1,9 @@
 variables:
   IMAGE_PIPELINE_RUNNER: docker:22.06.0-beta.0-cli
   # dind
-  DOCKER_HOST: tcp://docker:2375
+  DOCKER_HOST: tcp://docker:2376
   DOCKER_TLS_CERTDIR: ""
+  CI_DEBUG_SERVICES: "true"
 
 stages:
   - test
