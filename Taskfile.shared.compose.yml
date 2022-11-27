@@ -33,11 +33,12 @@ tasks:
   ci_run:
     internal: true
     cmds:
-      - defer: docker-compose -p -p {{.COMPOSE_ID}} down --volumes --rmi local
+      - defer: docker-compose -f {{.COMPOSE_FILE}} -p {{.COMPOSE_ID}} down --volumes --rmi local
       - task: build
-      - docker-compose -p {{.COMPOSE_ID}} -f {{.COMPOSE_FILE}} pull ${{ .PULL_CONTAINERS }}
-      - docker-compose -p {{.COMPOSE_ID}} -f {{.COMPOSE_FILE}} up -d ${{ .PULL_CONTAINERS }}
+      - docker-compose -p {{.COMPOSE_ID}} -f {{.COMPOSE_FILE}} pull {{.PULL_CONTAINERS}}
+      - docker-compose -p {{.COMPOSE_ID}} -f {{.COMPOSE_FILE}} up -d {{.PULL_CONTAINERS}}
       - sleep 3
       - docker-compose -f {{.COMPOSE_FILE}} -p {{.COMPOSE_ID}} run {{.CMD}}
+    dir: ./{{.DIR}}
 
       
