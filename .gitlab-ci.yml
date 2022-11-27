@@ -1,24 +1,26 @@
 variables:
   IMAGE_PIPELINE_RUNNER: docker:22.06.0-beta.0-cli
-  DOCKER_HOST: tcp://dind-service:2375
+  # dind
+  DOCKER_HOST: tcp://docker:2375
+  DOCKER_TLS_CERTDIR: ""
 
 stages:
   - test
 
-.install_task: &install_task
-  - apk update && apk add curl
-  - sh -c "$(curl --location https://taskfile.dev/install.sh)" -- -d -b /usr/local/bin
-
 .setup: &setup
   before_script:
-    - *install_task
+    - apk update && apk add curl
+    - sh -c "$(curl --location https://taskfile.dev/install.sh)" -- -d -b /usr/local/bin
+  services:
+    - name: docker:22.06.0-beta.0-dind
+      alias: docker
 
 build-test-django:
   image: ${IMAGE_PIPELINE_RUNNER}
   stage: test
+  <<: *setup
   variables:
     COMPOSE_ID: ${CI_PIPELINE_ID}_django
-  <<: *setup
   script:
     - cd example_frm_django
     - task dev:test
