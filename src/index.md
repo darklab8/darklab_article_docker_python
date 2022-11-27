@@ -225,9 +225,9 @@ Django: `./manage.py collectstatic --noinput --clear` (см. STATIC_URL / STATIC
 #### Нужны ли дополнительные скрипты (bash etc) для сборки/запуска приложения?
 
 Для веб приложений обычно нет, однако c Makefile, или [task](https://taskfile.dev/usage/) или [paver](https://pythonhosted.org/Paver/) жить проще.
-Или просто делая скрипты с [argparse](https://docs.python.org/3/library/argparse.html) встроенной библиотекой.
+Или просто делая скрипты с [argparse](https://docs.python.org/3/library/argparse.html) встроенной библиотекой. Или через `click`. Все индивидуально для веб проектов.
 
-Для приложений собираемых в бинарники файла вида `setup.py` от [https://pypi.org/project/setuptools/](https://pypi.org/project/setuptools/) а так же всегда обычно наличествуют `pyproject.toml` файлы, либо иные могут наличествовать чисто питон скрипты/библиотеки для сборки проектов.
+Для приложений собираемых в бинарники файла вида `setup.py` от [https://pypi.org/project/setuptools/](https://pypi.org/project/setuptools/), либо иные могут наличествовать чисто питон скрипты/библиотеки для сборки проектов. Список достаточно частых решений можно составить для данного случая. В рамках данной статьи сборку бинарников а так же публикацию библиотек на pypi мы не рассматриваем.
 
 #### Что обычно кэшируется в CI/CD пайплайне ?
 
