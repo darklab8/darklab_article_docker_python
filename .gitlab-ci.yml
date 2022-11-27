@@ -1,7 +1,7 @@
 variables:
   IMAGE_PIPELINE_RUNNER: docker:22.06.0-beta.0-cli
   # dind
-  DOCKER_HOST: tcp://dind-service:2376
+  DOCKER_HOST: tcp://dind-service:2375
 
 stages:
   - test
