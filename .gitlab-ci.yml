@@ -1,9 +1,7 @@
 variables:
   IMAGE_PIPELINE_RUNNER: docker:22.06.0-beta.0-cli
   # dind
-  DOCKER_HOST: tcp://docker:2376
-  DOCKER_TLS_CERTDIR: ""
-  CI_DEBUG_SERVICES: "true"
+  DOCKER_HOST: tcp://dind-service:2376
 
 stages:
   - test
@@ -12,10 +10,6 @@ stages:
   before_script:
     - apk update && apk add curl
     - sh -c "$(curl --location https://taskfile.dev/install.sh)" -- -d -b /usr/local/bin
-    - sleep 10
-  services:
-    - name: docker:22.06.0-beta.0-dind
-      alias: docker
 
 build-test-django:
   image: ${IMAGE_PIPELINE_RUNNER}

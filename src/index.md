@@ -13,6 +13,7 @@
 - [Task](https://taskfile.dev/) для локальных pipeline workflow
 - Python frameworks: `Django`, `FastAPI`, `Flask`
 - Python ORMs + migrating libraries: `Django ORM` + `SQLALchemy`/`Alembic`
+- [Self hosted Github and Gitlab runners with available docker in docker](https://github.com/darklab8/darklab_infrastructure) ()
 
 ### 1.1 Вступление
 
